@@ -4,6 +4,7 @@ import com.example.springboot.entity.post.Post;
 import com.example.springboot.entity.post.PostRepository;
 import com.example.springboot.payload.request.PostSaveRequest;
 import com.example.springboot.payload.request.PostUpdateRequest;
+import com.example.springboot.payload.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +26,17 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
         post.update(request.getTitle(), request.getContent());
         return id;
+    }
+
+    @Transactional
+    public PostResponse findById(Long id) {
+        Post entity = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+        return PostResponse
+                .builder()
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .author(entity.getAuthor())
+                .build();
     }
 }
