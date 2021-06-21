@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import com.example.springboot.payload.request.PostSaveRequest;
 import com.example.springboot.payload.request.PostUpdateRequest;
+import com.example.springboot.payload.response.PostResponse;
 import com.example.springboot.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,5 +21,10 @@ public class PostController {
     @PutMapping("/api/v1/post/{id}")
     public Long update(@PathVariable Long id, @RequestBody PostUpdateRequest request) {
         return postService.update(id, request);
+    }
+
+    @GetMapping("/api/v1/post/{id}")
+    public PostResponse findById(@PathVariable Long id) {
+        return postService.findById(id);
     }
 }
