@@ -35,4 +35,10 @@ public class PostController {
     public List<PostListResponse> findAllDesc() {
         return postService.findAllDesc();
     }
+
+    @DeleteMapping("/api/v1/post/{id}")
+    public Long delete(@PathVariable Long id) {
+        postService.delete(id);
+        return id;
+    }
 }
