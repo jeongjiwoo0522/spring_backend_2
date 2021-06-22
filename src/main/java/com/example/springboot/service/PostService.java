@@ -57,4 +57,11 @@ public class PostService {
                 )
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+        postRepository.delete(post);
+    }
 }
