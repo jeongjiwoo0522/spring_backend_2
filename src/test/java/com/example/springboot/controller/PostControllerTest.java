@@ -21,7 +21,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Transactional
 public class PostControllerTest {
 
     @LocalServerPort
@@ -60,7 +59,6 @@ public class PostControllerTest {
     }
 
     @Test
-    @Transactional
     public void Post_수정() throws Exception {
         // given
         Post savedPost = postRepository.save(
@@ -92,7 +90,8 @@ public class PostControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
-        Post all = postRepository.findAll().get(0);
+        Post all = postRepository.findById(updateId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + updateId));
 
         assertThat(all.getTitle()).isEqualTo(expectedTitle);
         assertThat(all.getContent()).isEqualTo(expectedContent);
