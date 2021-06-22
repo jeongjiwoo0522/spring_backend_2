@@ -34,6 +34,7 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
         return PostResponse
                 .builder()
+                .id(id)
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .author(entity.getAuthor())
