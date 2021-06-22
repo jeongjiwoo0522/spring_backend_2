@@ -4,10 +4,14 @@ import com.example.springboot.entity.post.Post;
 import com.example.springboot.entity.post.PostRepository;
 import com.example.springboot.payload.request.PostSaveRequest;
 import com.example.springboot.payload.request.PostUpdateRequest;
+import com.example.springboot.payload.response.PostListResponse;
 import com.example.springboot.payload.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -39,5 +43,18 @@ public class PostService {
                 .content(entity.getContent())
                 .author(entity.getAuthor())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostListResponse> findAllDesc() {
+        return postRepository.findAllDesc().stream()
+                .map(post -> PostListResponse.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .author(post.getAuthor())
+                    .updatedAt(post.getUpdatedAt())
+                    .build()
+                )
+                .collect(Collectors.toList());
     }
 }
