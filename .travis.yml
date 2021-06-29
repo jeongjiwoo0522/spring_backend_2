@@ -13,6 +13,7 @@ cache:
     - '$HOME/.gradle'
 
 script:
+    - "chmod +x gradlew"
     - "./gradlew clean build"
     - "./gradlew test"
 
